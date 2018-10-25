@@ -1,44 +1,38 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
-var io = require('socket.io');
+var express = require('express');
+var path = require('path');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-var server = http.createServer(function(request, response){
-    var path = url.parse(request.url).pathname;
+var port = 8000;
 
-    switch(path){
-        case '/':
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.write('hello world');
-            response.end();
-            break;
-        case '/socket.html':
-            fs.readFile(__dirname + path, function(error, data){
-                if (error){
-                    response.writeHead(404);
-                    response.write("opps this doesn't exist - 404");
-                    response.end();
-                }
-                else{
-                    response.writeHead(200, {"Content-Type": "text/html"});
-                    response.write(data, "utf8");
-                    response.end();
-                }
-            });
-            break;
-        default:
-            response.writeHead(404);
-            response.write("opps this doesn't exist - 404");
-            response.end();
-            break;
-    }
+app.use(express.static(path.join(__dirname, "public")));
+
+io.on('connection', (socket) => {
+  console.log('new connection made');
+
+  socket.on('send-message', (data) => {
+    console.log(data.text);
+    io.emit('message-received', data);
+  });
+
+   socket.on('event1', (data) => {
+      console.log(data.msg);
+    });
+
+   socket.emit('event2', {
+      msg: 'Server to client, do you read me? Over.'
+    });
+
+   socket.on('event3', (data) => {
+      console.log(data.msg);
+      socket.emit('event4', {
+        msg: 'Loud and clear :)'
+      });
+    });
+
 });
 
-var listener = io.listen(server);
-listener.sockets.on('connection', function(socket){
-    socket.emit('message', {'message': 'hello world'});
+server.listen(port, () => {
+  console.log("Listening on port " + port);
 });
-
-server.listen(8001);
-
-io.listen(server);
