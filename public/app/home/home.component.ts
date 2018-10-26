@@ -40,6 +40,14 @@ export class HomeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+        this.socket.on('ranking', (data:any) => {
+            console.log('json recieved');
+            console.log(data);
+            console.log(data[0].test);
+            console.log(data[0]["Dealer ID"]);
+        })
+
+
         this.messages = new Array();
 
         this.socket.on('message-received', (msg: any) => {

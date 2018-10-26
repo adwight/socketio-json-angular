@@ -22,11 +22,19 @@ var HomeComponent = /** @class */ (function () {
         console.log('change detected');
         this.countSelectOptionChanged.emit(value);
         console.log(value);
+        //delete previous table
+        //display new table
     };
     HomeComponent.prototype.ngOnChanges = function () {
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.socket.on('ranking', function (data) {
+            console.log('json recieved');
+            console.log(data);
+            console.log(data[0].test);
+            console.log(data[0]["Dealer ID"]);
+        });
         this.messages = new Array();
         this.socket.on('message-received', function (msg) {
             _this.messages.push(msg);
