@@ -13,9 +13,18 @@ var core_1 = require("@angular/core");
 var io = require("socket.io-client");
 var HomeComponent = /** @class */ (function () {
     function HomeComponent() {
+        this.selectedOptionValue = 'log';
+        this.countSelectOptionChanged = new core_1.EventEmitter();
         // this.socket = io.connect('http://localhost:8000');
         this.socket = io.connect();
     }
+    HomeComponent.prototype.onSelectOptionChange = function (value) {
+        console.log('change detected');
+        this.countSelectOptionChanged.emit(value);
+        console.log(value);
+    };
+    HomeComponent.prototype.ngOnChanges = function () {
+    };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.messages = new Array();
@@ -45,6 +54,14 @@ var HomeComponent = /** @class */ (function () {
         // console.log(message.text);
         this.messageText = '';
     };
+    __decorate([
+        core_1.Input(),
+        __metadata("design:type", String)
+    ], HomeComponent.prototype, "choice", void 0);
+    __decorate([
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
+    ], HomeComponent.prototype, "countSelectOptionChanged", void 0);
     HomeComponent = __decorate([
         core_1.Component({
             moduleId: module.id,

@@ -37,11 +37,12 @@
 
   <div class="col-md-8">
     <form (ngSubmit)='sendMessage()'>
-      <div class='input-group'>
-        <select>
-            <option value="ranking">Dealer Ranking</option>
-            <option value="log">Dealer Log</option>
+        <select (change)="onSelectOptionChange($event.target.value)">
+            <option value="ranking" >Dealer Ranking</option>
+            <option value="log" >Dealer Log</option>
         </select>
+      <div class='input-group'>
+
         <input class='input-sm form-control'
                     name= "messageText"
                     [(ngModel)]="messageText"

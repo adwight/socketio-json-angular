@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import * as io from 'socket.io-client';
 
 @Component({
@@ -12,9 +12,23 @@ export class HomeComponent implements OnInit, OnChanges {
     messageText: string;
     messages: Array<any>;
     socket: SocketIOClient.Socket;
+    selectedOptionValue: string = 'log';
 
     @Input()
     choice: string;
+
+    
+
+    @Output()
+    countSelectOptionChanged: EventEmitter <string> = new EventEmitter <string> ();
+
+    onSelectOptionChange(value) {
+        console.log('change detected');
+            this.countSelectOptionChanged.emit(value);
+            console.log(value);
+            //delete previous table
+            //display new table
+        }
 
   constructor() {
    // this.socket = io.connect('http://localhost:8000');
