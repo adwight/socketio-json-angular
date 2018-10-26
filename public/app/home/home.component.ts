@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import * as io from 'socket.io-client';
 
 @Component({
@@ -8,14 +8,21 @@ import * as io from 'socket.io-client';
     templateUrl: 'home.template.html'
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnChanges {
     messageText: string;
     messages: Array<any>;
     socket: SocketIOClient.Socket;
 
+    @Input()
+    choice: string;
+
   constructor() {
    // this.socket = io.connect('http://localhost:8000');
    this.socket = io.connect();
+  }
+
+  ngOnChanges(){
+
   }
 
   ngOnInit() {
