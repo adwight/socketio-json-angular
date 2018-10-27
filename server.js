@@ -49,27 +49,7 @@ io.on('connection', (socket) => {
     {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '08:49 am', 'End Time': '09:50 am', 'Total Time': '1 hour(s), 0.2 min(s)', 'Hands Dealt': 38},
     {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '10:30 am', 'End Time': '11:45 am', 'Total Time': '1 hour(s), 15.7 min(s)', 'Hands Dealt': 61}
     ]
-    );
-
-  socket.on('send-message', (data) => {
-    console.log(data.text);
-    io.emit('message-received', data);
-  });
-
-   socket.on('event1', (data) => {
-      console.log(data.msg);
-    });
-
-   socket.emit('event2', {
-      msg: 'Server to client, do you read me? Over.'
-    });
-
-   socket.on('event3', (data) => {
-      console.log(data.msg);
-      socket.emit('event4', {
-        msg: 'Loud and clear :)'
-      });
-    });
+    ); 
 
 });
 

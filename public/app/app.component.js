@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var AppComponent = /** @class */ (function () {
     function AppComponent() {
-        this.appName = "Angular 2 Chat App";
+        this.appName = "NodeJS Socket-io JSON Angular App";
     }
     AppComponent = __decorate([
         core_1.Component({

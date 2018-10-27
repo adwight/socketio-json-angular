@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  appName: string = "Angular 2 Chat App";
+  appName: string = "NodeJS Socket-io JSON Angular App";
 }

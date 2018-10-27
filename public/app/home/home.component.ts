@@ -1,75 +1,52 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as io from 'socket.io-client';
 
 @Component({
+
     moduleId: module.id,
     selector: 'ch-home',
     styleUrls: ['home.styles.css'],
     templateUrl: 'home.template.html'
+
 })
 
-export class HomeComponent implements OnInit, OnChanges {
-    messageText: string;
-    messages: Array<any>;
+export class HomeComponent implements OnInit {
+
     socket: SocketIOClient.Socket;
-    selectedOptionValue: string = 'log';
     dealers: any[];
     employees: any[];
-    fromcontrol: string = 'from control';
-    createdTables: boolean = false;
-
-    @Input()
-    choice: string;
-
-    
-
-    @Output()
-    countSelectOptionChanged: EventEmitter <string> = new EventEmitter <string> ();
 
     onSelectOptionChange(value) {
-        console.log('change detected');
-        console.log(this.dealers[0].test);
 
-        if (this.createdTables == false){
-            this.createdTables = true;
+        if (value=="ranking"){
 
-            
-                
-           
+            document.getElementById("ranking").style.display="block";
+            document.getElementById("log").style.display="none";
+
         }
 
-            this.countSelectOptionChanged.emit(value);
-            console.log(value);
-            //delete previous table
-            if (value=="ranking"){
+        else if (value=="log"){
 
-                document.getElementById("ranking").style.display="block";
-                document.getElementById("log").style.display="none";
+            document.getElementById("log").style.display="block";
+            document.getElementById("ranking").style.display="none";
 
             }
 
-            else if (value=="log"){
-
-                document.getElementById("log").style.display="block";
-                document.getElementById("ranking").style.display="none";
-
-            }
-            //display new table
         }
 
   constructor() {
+
    // this.socket = io.connect('http://localhost:8000');
    this.socket = io.connect();
-  }
-
-  ngOnChanges(){
 
   }
 
   ngOnInit() {
+      
         document.getElementById("log").style.display="none";
 
         this.socket.on('ranking', (data:any) => {
+
             console.log('json recieved');
             console.log(data);
             console.log(data[0].test);
@@ -86,14 +63,13 @@ export class HomeComponent implements OnInit, OnChanges {
                         <th>Total Hands</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
             </table>`
 
             var i;
             var table = document.getElementById("table").getElementsByTagName('tbody')[0];
             for (i = 0; i < this.dealers.length; i++) {
+
                 var newRow = table.insertRow(i);
                 var cell0 = newRow.insertCell(0);
                 var cell1 = newRow.insertCell(1);
@@ -104,10 +80,13 @@ export class HomeComponent implements OnInit, OnChanges {
                 cell1.innerHTML = this.dealers[i]["Hands Per Hour"];
                 cell2.innerHTML = this.dealers[i]["Difference from Casino Avg"];
                 cell3.innerHTML = this.dealers[i]["Total Hands"];
+
             }
+
         })
         
         this.socket.on('log', (data:any) => {
+
             console.log('log json recieved');
             console.log(data);
             console.log(data[0]["Employee ID"]);
@@ -126,9 +105,7 @@ export class HomeComponent implements OnInit, OnChanges {
                         <th>Hands Dealt</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                </tbody>
+                <tbody></tbody>
             </table>`
 
             var i;
@@ -150,37 +127,11 @@ export class HomeComponent implements OnInit, OnChanges {
                 cell4.innerHTML = this.employees[i]["End Time"];
                 cell5.innerHTML = this.employees[i]["Total Time"];
                 cell6.innerHTML = this.employees[i]["Hands Dealt"];
+
             }
+
         })
 
-        this.messages = new Array();
-
-        this.socket.on('message-received', (msg: any) => {
-            this.messages.push(msg);
-            console.log(msg);
-            console.log(this.messages);
-        });
-      this.socket.emit('event1', {
-          msg: 'Client to server, can you hear me server?'
-      });
-      this.socket.on('event2', (data: any) => {
-        console.log(data.msg);
-        this.socket.emit('event3', {
-            msg: 'Yes, its working for me!!'
-        });
-      });
-      this.socket.on('event4', (data: any) => {
-          console.log(data.msg);
-      });
-   }
-
-   sendMessage() {
-    const message = {
-      text: this.messageText
-    };
-    this.socket.emit('send-message', message);
-    // console.log(message.text);
-    this.messageText = '';
-  }
+   }  
 
 }
