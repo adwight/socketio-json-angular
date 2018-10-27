@@ -14,26 +14,84 @@ var io = require("socket.io-client");
 var HomeComponent = /** @class */ (function () {
     function HomeComponent() {
         this.selectedOptionValue = 'log';
+        this.fromcontrol = 'from control';
+        this.createdTables = false;
         this.countSelectOptionChanged = new core_1.EventEmitter();
         // this.socket = io.connect('http://localhost:8000');
         this.socket = io.connect();
     }
     HomeComponent.prototype.onSelectOptionChange = function (value) {
         console.log('change detected');
+        console.log(this.dealers[0].test);
+        if (this.createdTables == false) {
+            this.createdTables = true;
+        }
         this.countSelectOptionChanged.emit(value);
         console.log(value);
         //delete previous table
+        if (value == "ranking") {
+            document.getElementById("ranking").style.display = "block";
+            document.getElementById("log").style.display = "none";
+        }
+        else if (value == "log") {
+            document.getElementById("log").style.display = "block";
+            document.getElementById("ranking").style.display = "none";
+        }
         //display new table
     };
     HomeComponent.prototype.ngOnChanges = function () {
     };
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
+        document.getElementById("log").style.display = "none";
         this.socket.on('ranking', function (data) {
             console.log('json recieved');
             console.log(data);
             console.log(data[0].test);
             console.log(data[0]["Dealer ID"]);
+            _this.dealers = data;
+            document.getElementById("ranking").innerHTML +=
+                "<table id=\"table\">\n                <thead>\n                    <tr>\n                        <th>Dealer ID</th>\n                        <th>Hands/Hour</th>\n                        <th>Dif From Avg</th>\n                        <th>Total Hands</th>\n                    </tr>\n                </thead>\n                <tbody>\n\n                </tbody>\n            </table>";
+            var i;
+            var table = document.getElementById("table").getElementsByTagName('tbody')[0];
+            for (i = 0; i < _this.dealers.length; i++) {
+                var newRow = table.insertRow(i);
+                var cell0 = newRow.insertCell(0);
+                var cell1 = newRow.insertCell(1);
+                var cell2 = newRow.insertCell(2);
+                var cell3 = newRow.insertCell(3);
+                cell0.innerHTML = _this.dealers[i]["Dealer ID"];
+                cell1.innerHTML = _this.dealers[i]["Hands Per Hour"];
+                cell2.innerHTML = _this.dealers[i]["Difference from Casino Avg"];
+                cell3.innerHTML = _this.dealers[i]["Total Hands"];
+            }
+        });
+        this.socket.on('log', function (data) {
+            console.log('log json recieved');
+            console.log(data);
+            console.log(data[0]["Employee ID"]);
+            _this.employees = data;
+            document.getElementById("log").innerHTML +=
+                "<table id=\"table-log\">\n                <thead>\n                    <tr>\n                        <th>Employee ID</th>\n                        <th>Table</th>\n                        <th>Game</th>\n                        <th>Start Time</th>\n                        <th>End Time</th>\n                        <th>Total TIme</th>\n                        <th>Hands Dealt</th>\n                    </tr>\n                </thead>\n                <tbody>\n\n                </tbody>\n            </table>";
+            var i;
+            var table = document.getElementById("table-log").getElementsByTagName('tbody')[0];
+            for (i = 0; i < _this.employees.length; i++) {
+                var newRow = table.insertRow(i);
+                var cell0 = newRow.insertCell(0);
+                var cell1 = newRow.insertCell(1);
+                var cell2 = newRow.insertCell(2);
+                var cell3 = newRow.insertCell(3);
+                var cell4 = newRow.insertCell(4);
+                var cell5 = newRow.insertCell(5);
+                var cell6 = newRow.insertCell(6);
+                cell0.innerHTML = _this.employees[i]["Employee ID"];
+                cell1.innerHTML = _this.employees[i]["Table"];
+                cell2.innerHTML = _this.employees[i]["Game"];
+                cell3.innerHTML = _this.employees[i]["Start Time"];
+                cell4.innerHTML = _this.employees[i]["End Time"];
+                cell5.innerHTML = _this.employees[i]["Total Time"];
+                cell6.innerHTML = _this.employees[i]["Hands Dealt"];
+            }
         });
         this.messages = new Array();
         this.socket.on('message-received', function (msg) {
