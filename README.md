@@ -1,11 +1,9 @@
-## Node + Angular 2 with 1 server
+## Socket-io -> JSON -> Angular Tables
 
 ## Run the project
 - `npm i` or `yarn`
 - `gulp`
-- command prompt 1 type `tsc` to compile Typescript files
-- command prompt 2 type `nodemon server.js` or `node server.js`
+- `tsc` to compile Typescript files
+- `nodemon server.js` or `node server.js` to launch server
 
-### Navigate to port 8000
-
-- includes socket.io setup
+### Navigate to http://localhost:8000/
