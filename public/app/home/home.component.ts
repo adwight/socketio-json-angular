@@ -21,14 +21,14 @@ export class HomeComponent implements OnInit {
 
         if (value=="ranking"){
 
-            document.getElementById("ranking").style.display="block";
+            document.getElementById("ranking").style.display="flex";
             document.getElementById("log").style.display="none";
 
         }
 
         else if (value=="log"){
 
-            document.getElementById("log").style.display="block";
+            document.getElementById("log").style.display="flex";
             document.getElementById("ranking").style.display="none";
 
             }
@@ -135,7 +135,7 @@ export class HomeComponent implements OnInit {
 
                 }
 
-        } //end if
+           } //end if
 
         })
 

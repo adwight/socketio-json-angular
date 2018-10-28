@@ -19,11 +19,11 @@ var HomeComponent = /** @class */ (function () {
     //When dropdown value changes, display chosen data - hide the rest
     HomeComponent.prototype.onSelectOptionChange = function (value) {
         if (value == "ranking") {
-            document.getElementById("ranking").style.display = "block";
+            document.getElementById("ranking").style.display = "flex";
             document.getElementById("log").style.display = "none";
         }
         else if (value == "log") {
-            document.getElementById("log").style.display = "block";
+            document.getElementById("log").style.display = "flex";
             document.getElementById("ranking").style.display = "none";
         }
     };
@@ -34,10 +34,10 @@ var HomeComponent = /** @class */ (function () {
         this.socket.on('ranking', function (data) {
             //Assign Ranking JSON to dealers
             _this.dealers = data;
+            //Generate table based on Ranking data if not yet present
             if (document.getElementById("ranking").hasChildNodes() === false) {
-                //Generate table based on Ranking data
                 document.getElementById("ranking").innerHTML +=
-                    "<table id=\"table\">\n                <thead>\n                    <tr>\n                        <th>Dealer ID</th>\n                        <th>Hands/Hour</th>\n                        <th>Dif From Avg</th>\n                        <th>Total Hands</th>\n                    </tr>\n                </thead>\n                <tbody></tbody>\n            </table>";
+                    "<table id=\"table\">\n                    <thead>\n                        <tr>\n                            <th>Dealer ID</th>\n                            <th>Hands/Hour</th>\n                            <th>Dif From Avg</th>\n                            <th>Total Hands</th>\n                        </tr>\n                    </thead>\n                    <tbody></tbody>\n                </table>";
                 var i;
                 var table = document.getElementById("table").getElementsByTagName('tbody')[0];
                 for (i = 0; i < _this.dealers.length; i++) {
@@ -56,10 +56,10 @@ var HomeComponent = /** @class */ (function () {
         this.socket.on('log', function (data) {
             //Assign Log JSON to dealers
             _this.employees = data;
+            //Generate table based on Log data if not yet present
             if (document.getElementById("log").hasChildNodes() === false) {
-                //Generate table based on Log data
                 document.getElementById("log").innerHTML +=
-                    "<table id=\"table-log\">\n                <thead>\n                    <tr>\n                        <th>Employee ID</th>\n                        <th>Table</th>\n                        <th>Game</th>\n                        <th>Start Time</th>\n                        <th>End Time</th>\n                        <th>Total TIme</th>\n                        <th>Hands Dealt</th>\n                    </tr>\n                </thead>\n                <tbody></tbody>\n            </table>";
+                    "<table id=\"table-log\">\n                    <thead>\n                        <tr>\n                            <th>Employee ID</th>\n                            <th>Table</th>\n                            <th>Game</th>\n                            <th>Start Time</th>\n                            <th>End Time</th>\n                            <th>Total TIme</th>\n                            <th>Hands Dealt</th>\n                        </tr>\n                    </thead>\n                    <tbody></tbody>\n                </table>";
                 var i;
                 var table = document.getElementById("table-log").getElementsByTagName('tbody')[0];
                 for (i = 0; i < _this.employees.length; i++) {
