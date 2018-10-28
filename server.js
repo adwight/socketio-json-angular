@@ -3,17 +3,18 @@ var path = require('path');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
 var port = 8000;
 
+//Directory that holds app
 app.use(express.static(path.join(__dirname, "public")));
 
 io.on('connection', (socket) => {
   console.log('new connection made');
 
+  //Send Ranking JSON
   io.emit('ranking',
   [
-  {'Dealer ID': 43569, 'Hands Per Hour': 84.39, 'Difference from Casino Avg': 61.25, 'Total Hands': 790.0, 'test': 'great win'}, 
+  {'Dealer ID': 43569, 'Hands Per Hour': 84.39, 'Difference from Casino Avg': 61.25, 'Total Hands': 790.0}, 
   {'Dealer ID': 20641, 'Hands Per Hour': 80.49, 'Difference from Casino Avg': 57.35, 'Total Hands': 320.0},
   {'Dealer ID': 3624, 'Hands Per Hour': 76.69, 'Difference from Casino Avg': 53.55, 'Total Hands': 883.0},
   {'Dealer ID': 40540, 'Hands Per Hour': 73.03, 'Difference from Casino Avg': 49.88, 'Total Hands': 871.0},
@@ -31,28 +32,31 @@ io.on('connection', (socket) => {
   ]
 );
 
-
-    io.emit('log',
-    [
-    {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '12:35 pm', 'End Time': '1:30 pm', 'Total Time': '1 hour(s), 25.0 min(s)', 'Hands Dealt': 65},
-    {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '1:35 pm', 'End Time': '2:01 pm', 'Total Time': '0 hour(s), 25.3 min(s)', 'Hands Dealt': 13},
-    {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '3:00 pm', 'End Time': '3:30 pm', 'Total Time': '1 hour(s), 30.0 min(s)', 'Hands Dealt': 56},
-    {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '3:41 pm', 'End Time': '4:53 pm', 'Total Time': '1 hour(s), 12.2 min(s)', 'Hands Dealt': 53}, 
-    {'Employee ID': 6047, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '07:15 am', 'End Time': '9:00 am', 'Total Time': '1 hour(s), 44.8 min(s)', 'Hands Dealt': 72}, 
-    {'Employee ID': 20641, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '10:40 pm', 'End Time': '11:59 pm', 'Total Time': '1 hour(s), 19.3 min(s)', 'Hands Dealt': 59}, 
-    {'Employee ID': 21029, 'Table': 'BJ52', 'Game': 'Blackjack', 'Start Time': '08:47 am', 'End Time': '9:15 am', 'Total Time': '0 hour(s), 27.4 min(s)', 'Hands Dealt': 13}, 
-    {'Employee ID': 25579, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '12:58 pm', 'End Time': '2:59 pm', 'Total Time': '1 hour(s), 1.1 min(s)', 'Hands Dealt': 48}, 
-    {'Employee ID': 47278, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '10:01 am', 'End Time': '11:59 am', 'Total Time': '2 hour(s), 58.0 min(s)', 'Hands Dealt': 87}, 
-    {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '04:16 am', 'End Time': '06:50 am', 'Total Time': '2 hour(s), 34.2 min(s)', 'Hands Dealt': 45},
-    {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '06:54 am', 'End Time': '08:00 am', 'Total Time': '1 hour(s), 5.3 min(s)', 'Hands Dealt': 15},
-    {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '08:05 am', 'End Time': '08:45 am', 'Total Time': '0 hour(s), 44.3 min(s)', 'Hands Dealt': 24},
-    {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '08:49 am', 'End Time': '09:50 am', 'Total Time': '1 hour(s), 0.2 min(s)', 'Hands Dealt': 38},
-    {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '10:30 am', 'End Time': '11:45 am', 'Total Time': '1 hour(s), 15.7 min(s)', 'Hands Dealt': 61}
-    ]
-    ); 
+  //Send Log JSON
+  io.emit('log',
+  [
+  {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '12:35 pm', 'End Time': '1:30 pm', 'Total Time': '1 hour(s), 25.0 min(s)', 'Hands Dealt': 65},
+  {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '1:35 pm', 'End Time': '2:01 pm', 'Total Time': '0 hour(s), 25.3 min(s)', 'Hands Dealt': 13},
+  {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '3:00 pm', 'End Time': '3:30 pm', 'Total Time': '1 hour(s), 30.0 min(s)', 'Hands Dealt': 56},
+  {'Employee ID': 3624, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '3:41 pm', 'End Time': '4:53 pm', 'Total Time': '1 hour(s), 12.2 min(s)', 'Hands Dealt': 53}, 
+  {'Employee ID': 6047, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '07:15 am', 'End Time': '9:00 am', 'Total Time': '1 hour(s), 44.8 min(s)', 'Hands Dealt': 72}, 
+  {'Employee ID': 20641, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '10:40 pm', 'End Time': '11:59 pm', 'Total Time': '1 hour(s), 19.3 min(s)', 'Hands Dealt': 59}, 
+  {'Employee ID': 21029, 'Table': 'BJ52', 'Game': 'Blackjack', 'Start Time': '08:47 am', 'End Time': '9:15 am', 'Total Time': '0 hour(s), 27.4 min(s)', 'Hands Dealt': 13}, 
+  {'Employee ID': 25579, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '12:58 pm', 'End Time': '2:59 pm', 'Total Time': '1 hour(s), 1.1 min(s)', 'Hands Dealt': 48}, 
+  {'Employee ID': 47278, 'Table': 'BJ51', 'Game': 'Blackjack', 'Start Time': '10:01 am', 'End Time': '11:59 am', 'Total Time': '2 hour(s), 58.0 min(s)', 'Hands Dealt': 87}, 
+  {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '04:16 am', 'End Time': '06:50 am', 'Total Time': '2 hour(s), 34.2 min(s)', 'Hands Dealt': 45},
+  {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '06:54 am', 'End Time': '08:00 am', 'Total Time': '1 hour(s), 5.3 min(s)', 'Hands Dealt': 15},
+  {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '08:05 am', 'End Time': '08:45 am', 'Total Time': '0 hour(s), 44.3 min(s)', 'Hands Dealt': 24},
+  {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '08:49 am', 'End Time': '09:50 am', 'Total Time': '1 hour(s), 0.2 min(s)', 'Hands Dealt': 38},
+  {'Employee ID': 48475, 'Table': 'BJ53', 'Game': 'Blackjack', 'Start Time': '10:30 am', 'End Time': '11:45 am', 'Total Time': '1 hour(s), 15.7 min(s)', 'Hands Dealt': 61}
+  ]
+  ); 
 
 });
 
+//Start server listening at localhost:8000
 server.listen(port, () => {
+
   console.log("Listening on port " + port);
+
 });
